@@ -1,0 +1,6 @@
+
+const fetchAllUser = () => {
+
+}
+
+export { fetchAllUser };
