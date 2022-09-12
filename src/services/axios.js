@@ -1,6 +1,0 @@
-
-const fetchAllUser = () => {
-
-}
-
-export { fetchAllUser };
