@@ -6,7 +6,9 @@ import ModalAddNew from './ModalAddNew';
 import ModalEditUser from './ModalEditUser';
 import ModalConfirm from './ModalConfirm';
 import _ from 'lodash';
+import { debounce } from 'lodash';
 import './TableUser.scss';
+import { CSVLink, CSVDownload } from "react-csv";
 
 const TableUsers = (props) => {
 
@@ -21,9 +23,11 @@ const TableUsers = (props) => {
 
     const [isShowModalDelete, setIsShowModalDelete] = useState(false);
     const [dataUserDelete, setDataUserDelete] = useState({});
-
+ 
     const [sortBy, setSortBy] = useState("asc");
-    const [ sortField, setSortField] = useState("id");
+    const [sortField, setSortField] = useState("id");
+
+    const [keyword, setKeyword] = useState("");
 
     const handleClose = () => {
         setIsShowModalAddNew(false);
@@ -87,12 +91,53 @@ const TableUsers = (props) => {
         setListUsers(cloneListUsers);
     }
 
+    const handleSearch = debounce((event) => {
+        let term = event.target.value;
+        if (term) {
+            let cloneListUsers = _.cloneDeep(listUsers);
+            cloneListUsers = cloneListUsers.filter(item => item.email.includes(term));
+            setListUsers(cloneListUsers);
+        } else {
+            getUsers(1);
+        }
+    }, 1000)
+
+    const csvData = [
+        ["firstname", "lastname", "email"],
+        ["Ahmed", "Tomi", "ah@smthing.co.com"],
+        ["Raed", "Labes", "rl@smthing.co.com"],
+        ["Yezzi", "Min l3b", "ymin@cocococo.com"]
+    ];
+
     return (<>
         <div className="my-3 add-new">
             <span><b>List Users: </b></span>
-            <button className="btn btn-success" 
-              onClick={() => setIsShowModalAddNew(true)}
-            >Add new user</button>
+            <div className="group-btns">
+                <label htmlFor="test" className="btn btn-warning">
+                    <i className="fa-solid fa-file-import"></i> Import
+                </label>
+                <input id="test" type="file" hidden />
+
+                <CSVLink 
+                    filename={"users.csv"}
+                    className="btn btn-primary"
+                    data={csvData}
+                > <i className="fa-solid fa-file-arrow-down"></i> Export</CSVLink>
+            
+                <button className="btn btn-success" 
+                    onClick={() => setIsShowModalAddNew(true)}
+                >
+                    <i className="fa-solid fa-circle-plus"></i> Add new
+                </button>
+            </div>
+        </div>
+        <div className="col-4 my-3">
+            <input 
+                className='form-control' 
+                placeholder='Search user by email...' 
+                // value={keyword}
+                onChange={(event) => handleSearch(event)}
+            />
         </div>
 
         <Table striped bordered hover>
