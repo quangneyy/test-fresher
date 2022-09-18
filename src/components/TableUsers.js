@@ -158,7 +158,6 @@ const TableUsers = (props) => {
                                 })
                                 setListUsers(result)
                             }
-
                         } else {
                             toast.error("Wrong format CSV file!")
                         }
