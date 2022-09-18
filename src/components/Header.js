@@ -5,7 +5,6 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import logoApp from '../assets/images/logo192.png';
 import { useLocation, NavLink } from 'react-router-dom';
 const Header = (props) => {
-    const location = useLocation();
 
     return (<>
         <Navbar bg="light" expand="lg" activeKey="/">
