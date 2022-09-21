@@ -54,7 +54,7 @@ const Login = () => {
                     value={password} 
                     onChange={(event) => setPassword(event.target.value)}
                 />
-                <i class={isShowPassword === true ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"}
+                <i className={isShowPassword === true ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"}
                     onClick={() => setIsShowPassword(!isShowPassword)}
                 ></i>
             </div>
