@@ -19,8 +19,8 @@ const Login = () => {
             toast.error("Email/Password is required!");
             return;
         }
-        setLoadingAPI(true);
-        let res = await loginApi(email, password);
+        setLoadingAPI(true); 
+        let res = await loginApi(email.trim(), password);
         if (res && res.token) {
             loginContext(email, res.token);
             navigate("/");
@@ -35,6 +35,12 @@ const Login = () => {
     
     const handleGoBack = () => {
         navigate("/");
+    }
+
+    const handlePressEnter = (event) => {
+        if(event && event.key === 'Enter') {
+            handleLogin();
+        }
     }
 
     return (<>
@@ -53,6 +59,7 @@ const Login = () => {
                     placeholder="Password..." 
                     value={password} 
                     onChange={(event) => setPassword(event.target.value)}
+                    onKeyDown = {(event) => handlePressEnter(event)}
                 />
                 <i className={isShowPassword === true ? "fa-solid fa-eye" : "fa-solid fa-eye-slash"}
                     onClick={() => setIsShowPassword(!isShowPassword)}
